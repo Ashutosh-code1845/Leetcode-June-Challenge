@@ -1,0 +1,44 @@
+class MyCalendar {
+public:
+    vector<pair<int,int>> vec;
+    MyCalendar() {
+        
+    }
+    
+    bool book(int start, int end) {
+        if(vec.size() == 0){
+            vec.push_back({start,end});
+            return true;
+        }else if(end <= vec.front().first){
+            vec.insert(vec.begin(),{start,end});
+            return true;
+        }else{
+            int min = 0;
+            int max = vec.size();
+            while(min < max){
+                int mid = min+(max-min)/2;
+                if(vec[mid].second >= start){
+                    max = mid;
+                }else{
+                    min = mid+1;
+                }
+            }
+            if(min < vec.size() && start >= vec[min].second)
+                min++;
+            if(min >= vec.size()){
+                vec.push_back({start,end});
+                return true;
+            }else{
+                if(vec[min].first <= start){
+                    return false;
+                }else if(vec[min].first > start && vec[min].first >= end){
+                    vec.insert(vec.begin()+min,{start,end});
+                    return true;
+                }else{
+                    return false;
+                }
+            }
+        }
+        return false;
+    }
+};
