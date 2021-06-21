@@ -1,0 +1,16 @@
+class Solution {
+public:
+    vector<vector<int>> generate(int rows) {
+        
+        vector<vector<int>> pascal(rows);
+        
+        for(int line=0; line<rows; line++)
+        {
+            pascal[line].resize(line+1);
+            pascal[line][line]=pascal[line][0]=1;
+            for(int i=1; i<line; i++)
+                pascal[line][i] = pascal[line-1][i-1]+pascal[line-1][i];
+        }
+        return pascal;
+    }
+};
