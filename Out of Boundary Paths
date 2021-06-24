@@ -1,0 +1,46 @@
+class Solution {
+public:
+    int mod=pow(10,9)+7;
+    int findPathsH(int m, int n, int N, int i, int j,int*** memo){
+        //Base Case
+        if(i==m||i==-1||j==n||j==-1){
+            if(N>=0){
+                return 1;
+            }
+            return 0;
+        }
+        if(N<=0){
+            return 0;
+        }
+        if(memo[i][j][N]!=-1){
+            return memo[i][j][N];
+        }
+		
+        int ans=0;
+        //op1-up
+        ans=(ans+findPathsH(m,n,N-1,i-1,j,memo))%mod;
+        //op2-down
+        ans=(ans+findPathsH(m,n,N-1,i+1,j,memo))%mod;
+        //op3-left
+        ans=(ans+findPathsH(m,n,N-1,i,j-1,memo))%mod;
+        //op4-right
+        ans=(ans+findPathsH(m,n,N-1,i,j+1,memo))%mod;
+        
+        memo[i][j][N]=ans;
+        return memo[i][j][N];
+    }
+    int findPaths(int m, int n, int N, int i, int j) {
+        int*** memo=new int**[m+1];
+        for(int i=0;i<=m;i++){
+            memo[i]=new int*[n+1];
+            for(int j=0;j<=n;j++){
+                memo[i][j]=new int[N+1];
+                for(int k=0;k<=N;k++){
+                    memo[i][j][k]=-1;
+                }
+            }
+        }
+        //We will make 3d memoization array
+        return findPathsH(m,n,N,i,j,memo);
+    }
+};
