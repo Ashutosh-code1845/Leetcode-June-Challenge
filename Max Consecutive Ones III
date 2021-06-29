@@ -1,0 +1,19 @@
+// Here s and e are starting and ending pointers respectively for the window.
+// We will need to validate the window whenever fzero > k because we cannot flip more than k digits.
+class Solution {
+public:
+int longestOnes(vector<int>& arr, int k) {
+        int s = 0, e = 0, fone = 0, fzero = 0;
+        int cnt = 0;
+        while(e < arr.size()) {
+            if (arr[e++]) fone++;
+            else fzero++;
+            while(fzero > k) {
+                if (arr[s++]) fone--;
+                else fzero--;
+            }
+            cnt = max(cnt, fzero + fone);
+        } 
+        return cnt;
+    }
+};
